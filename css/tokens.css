@@ -1,0 +1,129 @@
+/* ===========================================================================
+   Open Air — Design Tokens
+   The visual DNA of the app. Calm, spacious, like the opposite of a locked
+   space. Air and nature associations; never clinical white, never jarring.
+   =========================================================================== */
+
+:root {
+  /* --- Palette ---
+     Warm off-white background (morning light, not clinical)
+     Soft sage/eucalyptus primary, muted sky-blue secondary
+     Warm charcoal text — softer than pure black */
+  --color-bg: #FAF7F2;
+  --color-bg-elevated: #FFFFFF;
+  --color-surface: #F2EDE4;
+  --color-surface-2: #EAE3D6;
+
+  --color-primary: #8BA889;        /* sage / eucalyptus — for non-text uses */
+  --color-primary-action: #5E7A5D;  /* darker sage — for text-on-color (AA 4.75:1) */
+  --color-primary-soft: #C5D6C4;
+  --color-primary-deep: #5E7A5D;
+
+  --color-secondary: #A8C4D6;      /* muted sky blue */
+  --color-secondary-soft: #D6E5EE;
+
+  --color-accent: #D4A574;          /* warm sand — for gentle highlights */
+
+  --color-text: #2E2A26;           /* warm charcoal */
+  --color-text-soft: #6B6359;
+  --color-text-faint: #9C9387;
+
+  --color-danger: #C97B6E;          /* muted terracotta — never harsh red */
+  --color-danger-soft: #F0D4CC;
+
+  /* SUDS scale colors: calm → concerned → intense (never alarming) */
+  --suds-0: #8BA889;
+  --suds-3: #C5D6A0;
+  --suds-5: #E8D17A;
+  --suds-7: #D4A574;
+  --suds-10: #C97B6E;
+
+  /* --- Typography ---
+     Larger base for comfort + accessibility. Warm humanist sans (system stack),
+     optional literary serif for headings. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+
+  --text-xs: 0.8125rem;   /* 13px */
+  --text-sm: 0.9375rem;   /* 15px */
+  --text-base: 1.0625rem; /* 17px — slightly generous base */
+  --text-lg: 1.1875rem;   /* 19px */
+  --text-xl: 1.4375rem;   /* 23px */
+  --text-2xl: 1.8125rem;  /* 29px */
+  --text-3xl: 2.375rem;   /* 38px */
+  --text-4xl: 3.25rem;    /* 52px */
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* --- Spacing --- generous, airy */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 5rem;
+
+  /* --- Radii --- soft, rounded */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- only the softest */
+  --shadow-sm: 0 1px 2px rgba(46, 42, 38, 0.04);
+  --shadow-md: 0 2px 8px rgba(46, 42, 38, 0.06);
+  --shadow-lg: 0 8px 24px rgba(46, 42, 38, 0.08);
+
+  /* --- Motion --- slow, breathing-paced */
+  --ease-gentle: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-base: 280ms var(--ease-gentle);
+  --transition-slow: 600ms var(--ease-gentle);
+
+  /* --- Layout --- */
+  --nav-height: 4.25rem;
+  --content-max: 640px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+/* High-contrast option — toggled by [data-contrast="high"] on <html> */
+[data-contrast="high"] {
+  --color-bg: #FFFFFF;
+  --color-text: #1A1714;
+  --color-text-soft: #4A4239;
+  --color-primary: #4E6B4D;
+  --color-primary-deep: #3A5239;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Large-text option */
+[data-text-size="large"] {
+  --text-xs: 0.9375rem;
+  --text-sm: 1.0625rem;
+  --text-base: 1.1875rem;
+  --text-lg: 1.3125rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.625rem;
+}
+
+/* Respect reduced motion at the OS level */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-base: 80ms var(--ease-gentle);
+    --transition-slow: 120ms var(--ease-gentle);
+  }
+}
