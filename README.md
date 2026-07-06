@@ -131,6 +131,15 @@ with AI assistants or a therapist.
 
 ---
 
+## Why this exists
+
+This app is free and released as open source. There are no ads or in-app
+purchases. The purpose has been to develop a tool — and hopefully a cure — for
+my own claustrophobia. It is helping me, and hopefully also others with similar
+needs.
+
+---
+
 ## A note on scope
 
 This app **complements, but does not replace, professional therapy**. For

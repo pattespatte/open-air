@@ -128,8 +128,7 @@ grund andning, känslan av att vara "instängd").
 - Läs **Tröst**-texten om du behöver en röst.
 - Krisraden (**1177** / **112**) finns alltid där.
 
-> *Nu fungerar bara för att Öva har gjort det bekant. Du kan inte lära dig 4-7-8
-> för första gången mitt i panik.*
+> *Du kan bara använda Nu i en panikattack om du redan har övat på andningen när du var lugn. Det går inte att lära sig 4-7-8-andningen för första gången mitt i ångesten — då hinner hjärnan inte ta in något nytt.*
 
 #### 🌿 Öva — dagligen, när du är lugn, 2–10 minuter
 
