@@ -3,6 +3,8 @@
 > A calm, offline-first companion for claustrophobia self-help.
 > Breathing, grounding, SUDS/thought logging, and a gentle exposure ladder.
 
+**🔗 Live app: https://pattespatte.github.io/open-air/**
+
 Open Air is a **Progressive Web App (PWA)** designed to feel like the opposite of
 a locked space — airy, slow, generous. It builds on established CBT and ERP
 (Exposure and Response Prevention) methodology: SUDS tracking, thought records,
@@ -30,7 +32,9 @@ the **emergency numbers** for five countries.
 
 ## Run it
 
-No build step. Any static server works.
+**Use the live version:** https://pattespatte.github.io/open-air/
+
+**Run locally** — no build step, any static server works:
 
 ```bash
 # From the repo root
@@ -43,9 +47,22 @@ but the app itself runs from `file://`).
 
 ### Install on your phone (offline use)
 
-1. Serve the app over HTTPS (GitHub Pages, Netlify, or any static host).
-2. **iPhone:** open in Safari → Share → *Add to Home Screen*.
-3. **Android:** open in Chrome → *Install app* / *Add to Home screen*.
+1. Open the live app in your phone's browser.
+2. **iPhone:** Safari → Share → *Add to Home Screen*.
+3. **Android:** Chrome → *Install app* / *Add to Home screen*.
+
+Once installed, it works with no signal — the service worker precaches the whole
+app.
+
+### Deploy
+
+The live site is hosted on **GitHub Pages**, configured to deploy automatically
+from the `main` branch root. **Every push to `main` publishes a new version**
+within a minute or two — no manual deploy step. To see build status, visit the
+repo's **Environments** tab or **Settings → Pages**.
+
+Because the app is static with no build step, the entire repo root *is* the
+published site.
 
 Once installed, it works with no signal — the service worker precaches the whole
 app.
