@@ -361,6 +361,21 @@ textarea {
 
 .settings-row:last-child { border-bottom: none; }
 
+.settings-row-help {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  margin-top: var(--space-1);
+}
+
+/* Country flag chips — slightly wider to fit the emoji */
+.chip[data-country] {
+  font-size: var(--text-lg);
+  padding: var(--space-1) var(--space-3);
+  min-width: 40px;
+  text-align: center;
+}
+
 /* --- Therapy disclaimer footer --- */
 .disclaimer {
   margin-top: var(--space-7);

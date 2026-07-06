@@ -34,7 +34,7 @@ export function renderNow(el, ctx) {
       <!-- Grounding or reassurance content injected here -->
     </div>
 
-    <p class="disclaimer">${t('app.tagline')}. Complements, not replaces, professional care.</p>
+    <p class="disclaimer">${t('app.tagline')}. ${t('now.disclaimer')}</p>
   `;
 
   // Add the view-specific styles by injecting a <style> once

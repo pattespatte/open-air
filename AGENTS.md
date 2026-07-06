@@ -35,7 +35,13 @@ elevators and small planes. He has not yet started real-world exposures.
   use. Critical — the app must work inside an elevator or a plane.
 - **Data layer**: `localStorage` only (via `js/store.js`). No server, no
   cloud, no analytics, no third-party calls. Privacy by design.
-- **i18n**: keyed dictionary in `js/i18n.js`, EN + SV. Bilingual toggle.
+- **i18n**: keyed dictionary in `js/i18n.js`. Four languages: EN, SV, FR, DE.
+  Helper: `t('key')` reads the current language at call time.
+- **Countries**: `js/countries.js` maps each country to its emergency numbers
+  and a suggested language. Country and language are SEPARATE settings — country
+  drives the crisis-bar numbers, language drives the UI text. Country is
+  auto-detected once on first launch (gated by `settings.countryDetected`),
+  then only changes on explicit user action.
 - **No external dependencies** in v1. Breathing animations are pure CSS.
 
 Do not introduce a framework, bundler, or runtime dependency without
@@ -58,7 +64,8 @@ open-air/
 ├── js/
 │   ├── app.js              # Controller: settings, router, shell, nav
 │   ├── store.js            # localStorage CRUD + JSON/Markdown export
-│   ├── i18n.js             # EN/SV translations, t() helper
+│   ├── i18n.js             # EN/SV/FR/DE translations, t() helper
+│   ├── countries.js        # Country config (emergency numbers, detection)
 │   └── views/
 │       ├── now.js          # 🫧 Emergency relief
 │       ├── practice.js     # 🌿 Daily skill-building
@@ -103,9 +110,11 @@ demanding?* If the latter, simplify.
 
 These come from the companion CBT project and are encoded into the product:
 
-1. **Crisis contacts on every screen.** The crisis bar (1177 non-emergency,
-   112 emergency) appears on all four views, in both languages. Never remove
-   or bury it.
+1. **Crisis contacts on every screen.** The crisis bar appears on all four
+   views, in all languages. Numbers come from `countries.js` (🇸🇪 1177/112,
+   🇬🇧 111/999, 🇺🇸 988/911, 🇫🇷 15/112, 🇩🇪 116117/112). Never remove or
+   bury the crisis bar. When adding a country, update `COUNTRIES` and
+   `COUNTRY_ORDER` in `js/countries.js`.
 2. **No minimizing language.** Copy must never say "just relax" or "it's not
    dangerous." Phobic anxiety is a real physiological response. See the
    reassurance text in `now.js` for the house tone.
@@ -126,7 +135,7 @@ All data under one localStorage key: `openair.v1`.
 
 ```js
 {
-  settings: { language, contrast, textSize, reducedMotion },
+  settings: { language, country, countryDetected, contrast, textSize, reducedMotion },
   entries:  [{ id, type, datetime, ... }],  // 'checkin' | 'thought' | 'exposure' | 'practice'
   ladder:   [{ id, baselineSuds, currentSuds, history: [{date, suds}] }],  // 6 seeded rungs
   milestones: [{ id, datetime, title, note }],
@@ -149,11 +158,13 @@ All data under one localStorage key: `openair.v1`.
 - **No semicolons** (matches the existing files).
 - **View-local CSS** goes in the view's `*_STYLES` constant, injected once.
   Only shared primitives go in `css/style.css`.
-- **i18n every string.** No hardcoded user-facing English or Swedish — add
-  keys to both `en` and `sv` in `js/i18n.js`, then use `t('key')`.
+- **i18n every string.** No hardcoded user-facing text in any language — add
+  keys to ALL FOUR language blocks (`en`, `sv`, `fr`, `de`) in `js/i18n.js`,
+  then use `t('key')`. If you add a country, also add its numbers to
+  `js/countries.js` and its language block to `i18n.js`.
   Watch for arrays built at module load (they capture language at import
   time — make them functions called at render time instead).
-- **Test in both languages** before considering a view done.
+- **Test in all four languages** before considering a view done.
 - **Verify offline**: after changes, reload with the network throttled to
   offline and confirm the app still loads.
 - **Accessibility**: run an axe-core check on new UI. Primary buttons must
@@ -166,6 +177,16 @@ All data under one localStorage key: `openair.v1`.
 Cloud sync, accounts, analytics, in-app AI chat, notifications/reminders,
 biofeedback, social features. These were deliberately deferred — see the
 original plan. Raise before adding.
+
+---
+
+## Translation status
+
+- **English, Swedish**: primary, carefully written.
+- **French, German**: AI-produced drafts. Solid but NOT native-reviewed. If
+  you change FR/DE copy, preserve the tone (calm, non-clinical, no minimizing
+  language) and flag any major rewording as benefiting from native review. The
+  app author plans to have these checked by native speakers before publication.
 
 ---
 

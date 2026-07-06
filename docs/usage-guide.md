@@ -118,7 +118,7 @@ Allt annat i appen bygger på den grunden.
 
 ### När du ska använda varje läge
 
-#### 🫧 Nu — när ångesten ökar eller du känner den bygga upp
+#### 🫧 Nu — när ångesten ökar eller när du känner att den är på väg
 
 Öppna i samma ögonblick du märker det första fysiska tecknet (hård bröstkorg,
 grund andning, känslan av att vara "instängd").

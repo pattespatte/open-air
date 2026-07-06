@@ -9,7 +9,8 @@ a locked space — airy, slow, generous. It builds on established CBT and ERP
 exposure logging, habituation checks, and safety-behavior awareness.
 
 It works **fully offline** (critical for elevators and planes), stores **all data
-locally** on your device (private by design), and speaks **English and Swedish**.
+locally** on your device (private by design), speaks **four languages**, and knows
+the **emergency numbers** for five countries.
 
 ---
 
@@ -60,8 +61,10 @@ app.
   precaches everything.
 - **Private.** No server, no account, no analytics, no third-party calls. Your
   data lives in your browser's `localStorage`.
-- **Bilingual.** Toggle between English and Swedish anywhere; the choice
-  persists.
+- **Multilingual & multi-country.** Four languages (English, Svenska, Français,
+  Deutsch) and five countries with correct emergency numbers (🇸🇪 🇬🇧 🇺🇸 🇫🇷 🇩🇪).
+  Country is auto-detected on first launch; both country and language are
+  user-overridable. An English speaker in France can have country=FR + language=en.
 - **Safety-aware.** Crisis contacts (**1177** / **112** in Sweden) on every
   screen. No minimizing language. Consent-based exposure (the app never pushes you
   up a rung).
@@ -81,7 +84,8 @@ open-air/
 ├── js/
 │   ├── app.js              # Controller: shell, router, settings, help
 │   ├── store.js            # localStorage data layer + export
-│   ├── i18n.js             # EN/SV translations
+│   ├── i18n.js             # EN/SV/FR/DE translations
+│   ├── countries.js        # Country config (emergency numbers, flags)
 │   └── views/
 │       ├── now.js          # 🫧 Emergency relief
 │       ├── practice.js     # 🌿 Daily skill-building

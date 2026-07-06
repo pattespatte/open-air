@@ -9,10 +9,12 @@ const STORAGE_KEY = 'openair.v1';
 const DEFAULT_DATA = {
   // User-modifiable settings
   settings: {
-    language: 'en',        // 'en' | 'sv'
-    contrast: 'normal',    // 'normal' | 'high'
-    textSize: 'normal',    // 'normal' | 'large'
-    reducedMotion: false,  // forced reduced motion
+    language: 'en',          // 'en' | 'sv' | 'fr' | 'de'
+    country: 'se',           // 'se' | 'gb' | 'us' | 'fr' | 'de'
+    countryDetected: false,  // true once first-run auto-detect has run
+    contrast: 'normal',      // 'normal' | 'high'
+    textSize: 'normal',      // 'normal' | 'large'
+    reducedMotion: false,    // forced reduced motion
   },
 
   // Quick SUDS check-ins, thought records, and exposure logs

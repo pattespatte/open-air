@@ -7,6 +7,7 @@
 
 import { store } from './store.js';
 import { setLanguage, getLanguage, t } from './i18n.js';
+import { COUNTRY_ORDER, getCountry, localeToCountry } from './countries.js';
 import { renderNow } from './views/now.js';
 import { renderPractice } from './views/practice.js';
 import { renderLog } from './views/log.js';
@@ -24,16 +25,20 @@ function applySettings() {
   document.documentElement.dataset.textSize = s.textSize;
 }
 
-/* --- Render the crisis bar (shown on every view) --- */
+/* --- Render the crisis bar (shown on every view) ---
+   Numbers come from the country config; labels are translated. */
 function renderCrisisBar() {
+  const country = getCountry(store.getSettings().country);
+  const advice = country.advice;
+  const emergency = country.emergency;
   return `
     <div class="crisis-bar" role="complementary" aria-label="${t('crisis.ifNeeded')}">
       <span>${t('crisis.ifNeeded')}</span>
-      <a href="tel:1177" aria-label="${t('crisis.1177.label')} ${t('crisis.1177')}">
-        <span class="crisis-num">${t('crisis.1177')}</span> <span>${t('crisis.1177.label')}</span>
+      <a href="tel:${advice.number}" aria-label="${t(advice.labelKey)} ${advice.number}">
+        <span class="crisis-num">${advice.number}</span> <span>${t(advice.labelKey)}</span>
       </a>
-      <a href="tel:112" aria-label="${t('crisis.112.label')} ${t('crisis.112')}">
-        <span class="crisis-num">${t('crisis.112')}</span> <span>${t('crisis.112.label')}</span>
+      <a href="tel:${emergency.number}" aria-label="${t(emergency.labelKey)} ${emergency.number}">
+        <span class="crisis-num">${emergency.number}</span> <span>${t(emergency.labelKey)}</span>
       </a>
     </div>`;
 }
@@ -63,6 +68,17 @@ function renderNav(activeView) {
 /* --- Render the settings popover --- */
 function renderSettings() {
   const s = store.getSettings();
+  const langs = [
+    { code: 'en', label: 'English' },
+    { code: 'sv', label: 'Svenska' },
+    { code: 'fr', label: 'Français' },
+    { code: 'de', label: 'Deutsch' },
+  ];
+  const countryChips = COUNTRY_ORDER.map(code => {
+    const c = getCountry(code);
+    return `<button class="chip ${s.country === code ? 'chip-active' : ''}" data-country="${code}" aria-label="${code.toUpperCase()}">${c.flag}</button>`;
+  }).join('');
+
   return `
     <div id="settings-overlay" class="overlay" hidden>
       <div class="overlay-panel card" role="dialog" aria-labelledby="settings-title" aria-modal="true">
@@ -70,13 +86,22 @@ function renderSettings() {
           <h2 id="settings-title">${t('settings.title')}</h2>
           <button class="btn btn-ghost" data-action="close-settings" aria-label="${t('common.close')}">✕</button>
         </div>
+
+        <div class="settings-row">
+          <div>
+            <span>${t('settings.country')}</span>
+            <span class="settings-row-help">${t('settings.country.help')}</span>
+          </div>
+          <div class="toggle-group">${countryChips}</div>
+        </div>
+
         <div class="settings-row">
           <span>${t('settings.language')}</span>
           <div class="toggle-group">
-            <button class="chip ${s.language === 'en' ? 'chip-active' : ''}" data-lang="en">English</button>
-            <button class="chip ${s.language === 'sv' ? 'chip-active' : ''}" data-lang="sv">Svenska</button>
+            ${langs.map(l => `<button class="chip ${s.language === l.code ? 'chip-active' : ''}" data-lang="${l.code}">${l.label}</button>`).join('')}
           </div>
         </div>
+
         <div class="settings-row">
           <span>${t('settings.contrast')}</span>
           <label class="switch">
@@ -249,6 +274,22 @@ function bindEvents() {
     });
   });
 
+  // Country chips — update numbers, and suggest matching language on first change
+  document.querySelectorAll('.chip[data-country]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const newCountry = chip.dataset.country;
+      const s = store.getSettings();
+      const updates = { country: newCountry, countryDetected: true };
+      // If language hasn't been touched from default yet, suggest the country's language
+      const suggested = getCountry(newCountry).suggestedLanguage;
+      if (!s.countryDetected) {
+        updates.language = suggested;
+      }
+      store.updateSettings(updates);
+      refresh();
+    });
+  });
+
   // Toggles
   const contrast = document.getElementById('set-contrast');
   contrast?.addEventListener('change', () => {
@@ -269,6 +310,25 @@ function bindEvents() {
 
 /* --- Init --- */
 function init() {
+  // First-run: auto-detect country + suggested language from browser locale.
+  // Only runs once (gated by countryDetected); user can always override.
+  const s = store.getSettings();
+  if (!s.countryDetected) {
+    const locale = navigator.languages?.[0] || navigator.language || '';
+    const detected = localeToCountry(locale);
+    if (detected) {
+      const country = getCountry(detected);
+      store.updateSettings({
+        country: detected,
+        language: country.suggestedLanguage,
+        countryDetected: true,
+      });
+    } else {
+      // Detection failed — keep defaults (se/en) but mark as done so we don't retry
+      store.updateSettings({ countryDetected: true });
+    }
+  }
+
   applySettings();
   const hash = location.hash.replace('#', '');
   _currentView = VIEWS.includes(hash) ? hash : 'now';
