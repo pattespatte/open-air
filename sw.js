@@ -4,7 +4,7 @@
    Critical: emergency tools must load with no signal.
    =========================================================================== */
 
-const CACHE_NAME = 'openair-v1';
+const CACHE_NAME = 'openair-v2';
 
 const PRECACHE_URLS = [
   './',

@@ -102,17 +102,73 @@ function renderSettings() {
     </div>`;
 }
 
+/* --- Render the help overlay --- */
+function renderHelp() {
+  return `
+    <div id="help-overlay" class="overlay" hidden>
+      <div class="overlay-panel card help-panel" role="dialog" aria-labelledby="help-title" aria-modal="true">
+        <div class="overlay-header">
+          <h2 id="help-title">${t('help.title')}</h2>
+          <button class="btn btn-ghost" data-action="close-help" aria-label="${t('help.close')}">✕</button>
+        </div>
+        <div class="help-body">
+          <div class="help-section help-callout">
+            <p>${t('help.core.body')}</p>
+          </div>
+
+          <h3>${t('help.now')}</h3>
+          <p>${t('help.now.body').replace(/\n\n/g, '</p><p>')}</p>
+
+          <h3>${t('help.practice')}</h3>
+          <p>${t('help.practice.body').replace(/\n\n/g, '</p><p>')}</p>
+
+          <h3>${t('help.log')}</h3>
+          <p>${t('help.log.body').replace(/\n\n/g, '</p><p>')}</p>
+
+          <h3>${t('help.path')}</h3>
+          <p>${t('help.path.body')}</p>
+
+          <h3>${t('help.rhythm')}</h3>
+          <ul class="help-rhythm">
+            <li>${t('help.rhythm.daily')}</li>
+            <li>${t('help.rhythm.checkin')}</li>
+            <li>${t('help.rhythm.thought')}</li>
+            <li>${t('help.rhythm.path')}</li>
+            <li>${t('help.rhythm.now')}</li>
+          </ul>
+
+          <h3>${t('help.remember')}</h3>
+          <ol class="help-remember">
+            <li>${t('help.remember.1')}</li>
+            <li>${t('help.remember.2')}</li>
+            <li>${t('help.remember.3')}</li>
+          </ol>
+
+          <p class="help-boundary">${t('help.boundary')}</p>
+        </div>
+      </div>
+    </div>`;
+}
+
 /* --- The shell --- */
 function renderShell() {
   const app = document.getElementById('app');
   app.innerHTML = `
     <main>
       <div id="crisis-bar-mount"></div>
-      <button class="settings-trigger" data-action="open-settings" aria-label="${t('settings.title')}">
-        <span aria-hidden="true">⚙</span>
-      </button>
+      <div class="top-actions">
+        <button class="top-action" data-action="open-help" aria-label="${t('help.title')}">
+          <span aria-hidden="true">?</span>
+          <span class="top-action-label">${t('help.open')}</span>
+        </button>
+        <button class="top-action" data-action="open-settings" aria-label="${t('settings.title')}">
+          <span aria-hidden="true">⚙</span>
+          <span class="top-action-label">${t('settings.title')}</span>
+        </button>
+      </div>
       <div id="view-mount"></div>
       ${renderSettings()}
+      ${renderHelp()}
     </main>
     <div id="nav-mount"></div>
   `;
@@ -165,14 +221,24 @@ function bindEvents() {
 
   // Settings open/close
   document.querySelector('[data-action="open-settings"]')?.addEventListener('click', () => {
-    const overlay = document.getElementById('settings-overlay');
-    overlay.hidden = false;
+    document.getElementById('settings-overlay').hidden = false;
   });
   document.querySelector('[data-action="close-settings"]')?.addEventListener('click', () => {
     document.getElementById('settings-overlay').hidden = true;
   });
   document.getElementById('settings-overlay')?.addEventListener('click', (e) => {
     if (e.target.id === 'settings-overlay') e.target.hidden = true;
+  });
+
+  // Help open/close
+  document.querySelector('[data-action="open-help"]')?.addEventListener('click', () => {
+    document.getElementById('help-overlay').hidden = false;
+  });
+  document.querySelector('[data-action="close-help"]')?.addEventListener('click', () => {
+    document.getElementById('help-overlay').hidden = true;
+  });
+  document.getElementById('help-overlay')?.addEventListener('click', (e) => {
+    if (e.target.id === 'help-overlay') e.target.hidden = true;
   });
 
   // Language chips
