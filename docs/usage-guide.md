@@ -110,7 +110,7 @@ therapy land better.
 
 ### Den enda regeln som betyder mest
 
-**Öva andning varje dag när du är lugn — även bara två minuter.**
+**Öva andning varje dag när du är lugn – även bara två minuter.**
 
 Du kan inte lära dig använda en andningsteknik *under* en panikattack. Färdigheten
 måste repeteras när du är lugn så att den blir en reflex kroppen söker sig till.
@@ -118,19 +118,19 @@ Allt annat i appen bygger på den grunden.
 
 ### När du ska använda varje läge
 
-#### 🫧 Nu — när ångesten ökar eller när du känner att den är på väg
+#### 🫧 Nu – när ångesten ökar eller när du känner att den är på väg
 
 Öppna i samma ögonblick du märker det första fysiska tecknet (hård bröstkorg,
 grund andning, känslan av att vara "instängd").
 
-- Andningscirkeln är standard — tryck för att starta.
+- Andningscirkeln är standard – tryck för att starta.
 - Om tankarna är för högljudda, byt till fliken **5-4-3-2-1 förankring**.
 - Läs **Tröst**-texten om du behöver en röst.
 - Krisraden (**1177** / **112**) finns alltid där.
 
-> *Du kan bara använda Nu i en panikattack om du redan har övat på andningen när du var lugn. Det går inte att lära sig 4-7-8-andningen för första gången mitt i ångesten — då hinner hjärnan inte ta in något nytt.*
+> *Du kan bara använda Nu i en panikattack om du redan har övat på andningen när du var lugn. Det går inte att lära sig 4-7-8-andningen för första gången mitt i ångesten – då hinner hjärnan inte ta in något nytt.*
 
-#### 🌿 Öva — dagligen, när du är lugn, 2–10 minuter
+#### 🌿 Öva – dagligen, när du är lugn, 2–10 minuter
 
 Detta är hjärtat i appen. Morgon eller kväll.
 
@@ -144,19 +144,19 @@ Att se den siffran sjunka är vad som bygger tro på metoden.
 > Sikta på dagligen, men det är "en tyst anteckning, inte en svit." 3–4
 > sessioner i veckan är bra. Att dyka upp betyder mer än längden.
 
-#### 📝 Logg — efter varje ångestögonblick, eller som daglig reflektion
+#### 📝 Logg – efter varje ångestögonblick, eller som daglig reflektion
 
-- **Snabb check-in** — när du märker ångest under dagen. Fem sekunder. Under
+- **Snabb check-in** – när du märker ångest under dagen. Fem sekunder. Under
   veckor syns mönster: "Jag brukar toppa vid flygplatsens säkerhetskontroll, inte
   på själva flygningen."
-- **Tankeanteckning** — när en katastroftanke snurrar ("Jag får slut på luft").
+- **Tankeanteckning** – när en katastroftanke snurrar ("Jag får slut på luft").
   Gå igenom Situation → Automatisk tanke → Alternativ tanke. Att se tanken på
   papper förminskar den.
-- **Exponeringslogg** — efter varje exponering, även ett mikro-steg som att
+- **Exponeringslogg** – efter varje exponering, även ett mikro-steg som att
   stå nära hissdörrarna. Fångar anticipatorisk vs. topp vs. slut-SUDS, och om din
   förutsägelse stämde (den gör det nästan aldrig).
 
-#### 🪜 Väg — en eller två gånger i veckan, för att planera
+#### 🪜 Väg – en eller två gånger i veckan, för att planera
 
 Titta på din nuvarande fokuspinne och läs det föreslagna mikro-steget. Besluta:
 *är jag redo att prova det denna vecka?*
@@ -186,12 +186,12 @@ För någon som inte har börjat med verkliga exponeringar ännu:
    bör *inte* vara under en panikattack. Använd Öva dagligen så känns Nu som en
    gammal vän.
 3. **En hög SUDS är data, inte misslyckande.** Loggen är för att se mönster, inte
-   döma dig. Och om du undviker det denna vecka — procrastinering är också en del
+   döma dig. Och om du undviker det denna vecka – procrastinering är också en del
    av fobin, inte en dom över dig.
 
 ### Den ärliga gränsen
 
 Denna app kompletterar professionell KBT; den ersätter den inte. För specifika
 fobier är KBT med exponering guldstandarden, och **1177** kan remittera dig i
-Sverige. Appen är bron mellan sessionerna — den dagliga övningen som får terapin
+Sverige. Appen är bron mellan sessionerna – den dagliga övningen som får terapin
 att fastna bättre.
