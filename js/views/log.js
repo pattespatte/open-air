@@ -5,6 +5,7 @@
 
 import { t } from '../i18n.js';
 import { store } from '../store.js';
+import { RUNG_LABELS } from './path.js';
 
 export function renderLog(el, ctx) {
   el.innerHTML = `
@@ -155,8 +156,8 @@ function renderExposure() {
       <div class="field">
         <label class="field-label">${t('log.exposure.habituation')}</label>
         <div class="radio-row">
-          <label class="radio-pill"><input type="radio" name="habitu" value="true"><span>Yes</span></label>
-          <label class="radio-pill"><input type="radio" name="habitu" value="false" checked><span>No</span></label>
+          <label class="radio-pill"><input type="radio" name="habitu" value="true"><span>${t('common.yes')}</span></label>
+          <label class="radio-pill"><input type="radio" name="habitu" value="false" checked><span>${t('common.no')}</span></label>
         </div>
       </div>
       <div class="field">
@@ -192,10 +193,10 @@ function renderEntry(e) {
   const dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   const timeStr = date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
   const typeLabels = {
-    checkin: '✓ Check-in',
-    thought: '🧠 Thought Record',
-    exposure: '🪜 Exposure',
-    practice: '🌿 Practice',
+    checkin: '✓ ' + t('log.type.checkin'),
+    thought: '🧠 ' + t('log.type.thought'),
+    exposure: '🪜 ' + t('log.type.exposure'),
+    practice: '🌿 ' + t('log.type.practice'),
   };
   let body = '';
   if (e.type === 'checkin') {
@@ -319,10 +320,10 @@ function bindHistory(ctx) {
     reader.onload = () => {
       try {
         store.importJSON(reader.result);
-        alert('✓ Imported.');
+        alert(t('log.import.success'));
         ctx.refresh();
       } catch (err) {
-        alert('Could not import: ' + err.message);
+        alert(t('log.import.error') + err.message);
       }
     };
     reader.readAsText(file);
@@ -336,15 +337,8 @@ function val(id) { return document.getElementById(id)?.value.trim() || ''; }
 function num(n) { return Number.isFinite(Number(n)) ? Number(n) : ''; }
 
 function rungLabel(id) {
-  const labels = {
-    r1: 'Watching elevator videos',
-    r2: 'Subway — off-peak',
-    r3: 'Large aircraft — short flights',
-    r4: 'Subway — rush hour',
-    r5: 'Small aircraft',
-    r6: 'Riding an elevator',
-  };
-  return labels[id] || id;
+  const lang = store.getSettings().language;
+  return RUNG_LABELS[id]?.[lang] || RUNG_LABELS[id]?.en || id;
 }
 
 function truncate(s, n) { return s.length > n ? s.slice(0, n) + '…' : s; }

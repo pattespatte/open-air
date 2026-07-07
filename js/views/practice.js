@@ -199,7 +199,7 @@ function renderBreathingExercise(el, ctx, exercise, pattern) {
     loop();
     // Stop button — tap circle to finish
     circle.addEventListener('click', finish, { once: true });
-    hint.insertAdjacentHTML('afterend', `<p class="breath-tap-hint" id="tap-hint">Tap circle when done</p>`);
+    hint.insertAdjacentHTML('afterend', `<p class="breath-tap-hint" id="tap-hint">${t('practice.tapToFinish')}</p>`);
   }
   function finish() {
     breathing = false;

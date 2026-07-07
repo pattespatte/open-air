@@ -58,7 +58,7 @@ function renderNav(activeView) {
         <button class="nav-${item.id} ${item.id === activeView ? 'active' : ''}"
                 data-view="${item.id}"
                 aria-label="${item.label}"
-                aria-current="${item.id === activeView ? 'page' : 'false'}">
+                ${item.id === activeView ? 'aria-current="page"' : ''}>
           <span class="nav-icon" aria-hidden="true">${item.icon}</span>
           <span class="nav-label">${item.label}</span>
         </button>

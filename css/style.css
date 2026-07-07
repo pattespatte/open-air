@@ -400,7 +400,7 @@ select:focus-visible {
 /* --- Top actions (help + settings, top-right) --- */
 .top-actions {
   position: absolute;
-  top: var(--space-5);
+  top: calc(var(--safe-top) + var(--space-5));
   right: var(--space-5);
   display: flex;
   gap: var(--space-2);

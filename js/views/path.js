@@ -7,25 +7,74 @@ import { t } from '../i18n.js';
 import { store } from '../store.js';
 import { openOverlay, dismissOverlay, mountOverlay } from '../overlay.js';
 
-// Rung display labels (bilingual)
-const RUNG_LABELS = {
-  r1: { en: 'Watching videos of elevator rides', sv: 'Se videor av hissåkningar' },
-  r2: { en: 'Subway — off-peak hours', sv: 'Tunnelbana — lågtrafik' },
-  r3: { en: 'Large aircraft — short flights', sv: 'Stort flygplan — korta flygningar' },
-  r4: { en: 'Subway — rush hour', sv: 'Tunnelbana — rusningstrafik' },
-  r5: { en: 'Small aircraft / commuter planes', sv: 'Litet flygplan / propellerplan' },
-  r6: { en: 'Riding an elevator (any duration)', sv: 'Åka hiss (någon längd)' },
+// Rung display labels (4 languages)
+export const RUNG_LABELS = {
+  r1: {
+    en: 'Watching videos of elevator rides', sv: 'Se videor av hissåkningar',
+    fr: 'Regarder des vidéos de trajets en ascenseur', de: 'Ansehen von Videos von Fahrstuhlfahrten',
+  },
+  r2: {
+    en: 'Subway — off-peak hours', sv: 'Tunnelbana — lågtrafik',
+    fr: 'Métro — heures creuses', de: 'U-Bahn — Nebenzeit',
+  },
+  r3: {
+    en: 'Large aircraft — short flights', sv: 'Stort flygplan — korta flygningar',
+    fr: 'Grand avion — vols courts', de: 'Großes Flugzeug — kurze Flüge',
+  },
+  r4: {
+    en: 'Subway — rush hour', sv: 'Tunnelbana — rusningstrafik',
+    fr: 'Métro — heure de pointe', de: 'U-Bahn — Hauptverkehrszeit',
+  },
+  r5: {
+    en: 'Small aircraft / commuter planes', sv: 'Litet flygplan / propellerplan',
+    fr: 'Petits avions / avions de ligne', de: 'Kleine Flugzeuge / Propellermaschinen',
+  },
+  r6: {
+    en: 'Riding an elevator (any duration)', sv: 'Åka hiss (någon längd)',
+    fr: 'Prendre l’ascenseur (n’importe quelle durée)', de: 'Fahrstuhl fahren (jede Dauer)',
+  },
 };
 
-// Micro-step suggestions per rung — the AGENTS.md "if stuck, suggest a micro-step" pattern.
+// Micro-step suggestions per rung, per language.
+// The AGENTS.md "if stuck, suggest a micro-step" pattern.
 // Shown only when the user opens a rung; never auto-advanced.
 const MICRO_STEPS = {
-  r1: 'Watch a 30-second elevator video. Then a minute. Notice: nothing happens to the person inside.',
-  r2: 'Walk down to a subway station at midday. Just stand at the entrance. Watch trains come and go.',
-  r3: 'Watch a video of a short flight. Picture yourself in the seat. Notice the feeling, and that it is a feeling.',
-  r4: 'Stand inside a subway station during a quieter moment. Notice the trains passing without boarding.',
-  r5: 'Look at photos or videos of small aircraft on the ground. Read about how they work.',
-  r6: 'Stand near the elevator doors without entering. Just notice what comes up.',
+  r1: {
+    en: 'Watch a 30-second elevator video. Then a minute. Notice: nothing happens to the person inside.',
+    sv: 'Se en 30-sekunders hissvideo. Sen en minut. Lägg märke till: personen där inne händer ingenting.',
+    fr: 'Regardez une vidéo d’ascenseur de 30 secondes. Puis une minute. Remarquez : il n’arrive rien à la personne à l’intérieur.',
+    de: 'Schauen Sie sich ein 30-sekündiges Fahrstuhl-Video an. Dann eine Minute. Beachten Sie: Der Person darin passiert nichts.',
+  },
+  r2: {
+    en: 'Walk down to a subway station at midday. Just stand at the entrance. Watch trains come and go.',
+    sv: 'Gå ner till en tunnelbanestation mitt på dagen. Stå bara vid ingången. Tåg tåg kommer och går.',
+    fr: 'Descendez à une station de métro en milieu de journée. Tenez-vous simplement à l’entrée. Regardez les trains passer.',
+    de: 'Gehen Sie mittags zu einer U-Bahn-Station. Stellen Sie sich nur an den Eingang. Schauen Sie den Zügen zu, wie sie kommen und gehen.',
+  },
+  r3: {
+    en: 'Watch a video of a short flight. Picture yourself in the seat. Notice the feeling, and that it is a feeling.',
+    sv: 'Se en video av en kort flygning. Föreställ dig själv i sätet. Märk känslan, och att det är en känsla.',
+    fr: 'Regardez une vidéo d’un vol court. Imaginez-vous dans le siège. Remarquez le sentiment, et que c’est un sentiment.',
+    de: 'Schauen Sie sich ein Video eines kurzen Flugs an. Stellen Sie sich auf dem Sitz vor. Beachten Sie das Gefühl, und dass es ein Gefühl ist.',
+  },
+  r4: {
+    en: 'Stand inside a subway station during a quieter moment. Notice the trains passing without boarding.',
+    sv: 'Stå inne i en tunnelbanestation under en lugnare stund. Lägg märke till tågen som passerar utan att gå ombord.',
+    fr: 'Tenez-vous dans une station de métro pendant un moment plus calme. Remarquez les trains qui passent sans monter à bord.',
+    de: 'Stehen Sie in einer U-Bahn-Station in einem ruhigeren Moment. Beachten Sie die Züge, die vorbeifahren, ohne einzusteigen.',
+  },
+  r5: {
+    en: 'Look at photos or videos of small aircraft on the ground. Read about how they work.',
+    sv: 'Titta på foton eller videor av små flygplan på marken. Läs om hur de fungerar.',
+    fr: 'Regardez des photos ou vidéos de petits avions au sol. Lisez sur leur fonctionnement.',
+    de: 'Schauen Sie sich Fotos oder Videos von kleinen Flugzeugen am Boden an. Lesen Sie darüber, wie sie funktionieren.',
+  },
+  r6: {
+    en: 'Stand near the elevator doors without entering. Just notice what comes up.',
+    sv: 'Stå nära hissdörrarna utan att gå in. Märk bara vad som kommer upp.',
+    fr: 'Tenez-vous près des portes de l’ascenseur sans entrer. Remarquez simplement ce qui surgit.',
+    de: 'Stehen Sie in der Nähe der Fahrstuhltüren, ohne einzusteigen. Beachten Sie einfach, was hochkommt.',
+  },
 };
 
 export function renderPath(el, ctx) {
@@ -69,7 +118,7 @@ export function renderPath(el, ctx) {
 
     <div class="next-step card">
       <div class="next-step-label">${t('path.nextStepLabel')}</div>
-      <p class="next-step-body">${MICRO_STEPS[currentRung.id]}</p>
+      <p class="next-step-body">${MICRO_STEPS[currentRung.id]?.[lang] || MICRO_STEPS[currentRung.id]?.en}</p>
     </div>
 
     <h2 class="mt-6">${t('path.title')}</h2>
@@ -162,7 +211,7 @@ function openSudsEditor(id, rung, ctx) {
         <button class="btn btn-ghost" data-close aria-label="${t('common.close')}">✕</button>
       </div>
       <p class="text-soft" style="font-size: var(--text-sm); margin-bottom: var(--space-4);">
-        ${RUNG_LABELS[id]?.en}
+        ${RUNG_LABELS[id]?.[store.getSettings().language] || RUNG_LABELS[id]?.en}
       </p>
       <div class="field">
         <input type="range" class="suds-slider" id="rung-suds-slider" min="0" max="10" value="${rung.currentSuds}">
