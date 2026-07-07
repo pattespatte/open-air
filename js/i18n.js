@@ -97,6 +97,7 @@ const TRANSLATIONS = {
     'log.exposure.peak': 'Peak SUDS (highest point)',
     'log.exposure.end': 'End SUDS (when you finished)',
     'log.exposure.cameTrue': 'Did the prediction come true?',
+    'log.exposure.cameTrue.yes': 'Yes — it happened as I feared',
     'log.exposure.cameTrue.no': 'No — the catastrophe did not happen',
     'log.exposure.safety': 'Safety behaviors used (e.g. holding the wall, watching the floor)',
     'log.exposure.habituation': 'Did the anxiety drop while you stayed?',
@@ -114,6 +115,7 @@ const TRANSLATIONS = {
     // PATH mode
     'path.title': 'Your path',
     'path.subtitle': 'Where you are, and the next gentle step',
+    'path.ladder.empty': 'No ladder rungs yet. They will appear here.',
     'path.currentFocus': 'Current focus',
     'path.nextStep': 'A micro-step you could try',
     'path.nextStepLabel': 'Next step',
@@ -261,6 +263,7 @@ const TRANSLATIONS = {
     'log.exposure.peak': 'Topp-SUDS (högsta punkten)',
     'log.exposure.end': 'Slut-SUDS (när du avslutade)',
     'log.exposure.cameTrue': 'Blev förutsägelsen sann?',
+    'log.exposure.cameTrue.yes': 'Ja — det hände som jag befarade',
     'log.exposure.cameTrue.no': 'Nej — katastrofen hände inte',
     'log.exposure.safety': 'Säkerhetsbeteenden som användes (t.ex. hålla väggen, se på golvet)',
     'log.exposure.habituation': 'Minskade oron medan du stannade?',
@@ -278,6 +281,7 @@ const TRANSLATIONS = {
     // PATH mode
     'path.title': 'Din väg',
     'path.subtitle': 'Var du är, och nästa försiktiga steg',
+    'path.ladder.empty': 'Inga stegpinmar ännu. De visas här.',
     'path.currentFocus': 'Nuvarande fokus',
     'path.nextStep': 'Ett mikro-steg du skulle prova',
     'path.nextStepLabel': 'Nästa steg',
@@ -425,6 +429,7 @@ const TRANSLATIONS = {
     'log.exposure.peak': 'SUDS de pointe (niveau le plus haut)',
     'log.exposure.end': 'SUDS final (à la fin)',
     'log.exposure.cameTrue': 'La prédiction s’est-elle réalisée ?',
+    'log.exposure.cameTrue.yes': 'Oui — cela est arrivé comme je le craignais',
     'log.exposure.cameTrue.no': 'Non — la catastrophe n’est pas arrivée',
     'log.exposure.safety': 'Comportements de sécurité utilisés (ex. tenir le mur, regarder le sol)',
     'log.exposure.habituation': 'L’anxiété a-t-elle diminué pendant que vous restiez ?',
@@ -442,6 +447,7 @@ const TRANSLATIONS = {
     // PATH mode
     'path.title': 'Votre parcours',
     'path.subtitle': 'Où vous êtes, et la prochaine petite étape',
+    'path.ladder.empty': 'Aucun échelon pour l’instant. Ils apparaîtront ici.',
     'path.currentFocus': 'Focus actuel',
     'path.nextStep': 'Une micro-étape que vous pourriez essayer',
     'path.nextStepLabel': 'Prochaine étape',
@@ -589,6 +595,7 @@ const TRANSLATIONS = {
     'log.exposure.peak': 'Spitzen-SUDS (höchster Punkt)',
     'log.exposure.end': 'End-SUDS (am Ende)',
     'log.exposure.cameTrue': 'Ist die Vorhersage eingetreten?',
+    'log.exposure.cameTrue.yes': 'Ja — es ist eingetreten, wie ich befürchtete',
     'log.exposure.cameTrue.no': 'Nein — die Katastrophe ist nicht eingetreten',
     'log.exposure.safety': 'Verwendete Sicherheitsverhalten (z. B. die Wand festhalten, auf den Boden schauen)',
     'log.exposure.habituation': 'Ist die Angst gesunken, während Sie blieben?',
@@ -606,6 +613,7 @@ const TRANSLATIONS = {
     // PATH mode
     'path.title': 'Ihr Weg',
     'path.subtitle': 'Wo Sie stehen, und der nächste sanfte Schritt',
+    'path.ladder.empty': 'Noch keine Stufen. Sie erscheinen hier.',
     'path.currentFocus': 'Aktueller Fokus',
     'path.nextStep': 'Ein Mikroschritt, den Sie versuchen könnten',
     'path.nextStepLabel': 'Nächster Schritt',

@@ -42,17 +42,25 @@ const DEFAULT_DATA = {
 };
 
 /* --- Internal load/save --- */
+
+// Coerce any top-level array fields to real arrays, so a corrupt/partial
+// import (e.g. { "ladder": null }) can't brick the app later via .sort/.map.
+function normalize(parsed) {
+  return {
+    ...structuredClone(DEFAULT_DATA),
+    ...parsed,
+    settings: { ...DEFAULT_DATA.settings, ...(parsed.settings || {}) },
+    entries: Array.isArray(parsed?.entries) ? parsed.entries : [],
+    ladder: Array.isArray(parsed?.ladder) ? parsed.ladder : [],
+    milestones: Array.isArray(parsed?.milestones) ? parsed.milestones : [],
+  };
+}
+
 function load() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return structuredClone(DEFAULT_DATA);
-    const parsed = JSON.parse(raw);
-    // Shallow-merge defaults so new fields appear without wiping data
-    return {
-      ...structuredClone(DEFAULT_DATA),
-      ...parsed,
-      settings: { ...DEFAULT_DATA.settings, ...(parsed.settings || {}) },
-    };
+    return normalize(JSON.parse(raw));
   } catch (e) {
     console.error('Open Air: failed to load data, resetting.', e);
     return structuredClone(DEFAULT_DATA);
@@ -156,11 +164,7 @@ export const store = {
 
   importJSON(jsonString) {
     const parsed = JSON.parse(jsonString);
-    state = {
-      ...structuredClone(DEFAULT_DATA),
-      ...parsed,
-      settings: { ...DEFAULT_DATA.settings, ...(parsed.settings || {}) },
-    };
+    state = normalize(parsed);
     save(state);
     return state;
   },
@@ -232,7 +236,7 @@ function renderEntryMarkdown(e) {
     out += block('Catastrophic Prediction', e.catastrophicPrediction);
     out += line('Peak SUDS', e.peakSuds != null ? `${e.peakSuds}/10` : '');
     out += line('End SUDS', e.endSuds != null ? `${e.endSuds}/10` : '');
-    out += line('Prediction came true?', e.predictionCameTrue === true ? 'No — the catastrophe did not happen' : e.predictionCameTrue === false ? 'No' : '');
+    out += line('Prediction came true?', e.predictionCameTrue === true ? 'Yes — it happened as feared' : e.predictionCameTrue === false ? 'No — the catastrophe did not happen' : '');
     out += block('Safety Behaviors Used', e.safetyBehaviors);
     out += line('Habituation (anxiety dropped?)', e.habituation === true ? 'Yes — anxiety decreased while staying' : e.habituation === false ? 'No' : '');
     out += block('Reflection', e.reflection);

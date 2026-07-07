@@ -36,6 +36,24 @@ export function renderPath(el, ctx) {
   // (defaults to lowest non-avoided, or lowest overall)
   const currentRung = findCurrentFocus(ladder);
 
+  // Empty-ladder guard: render an empty state and bail before touching currentRung.
+  if (!currentRung) {
+    el.innerHTML = `
+      <div class="view-header">
+        <h1>${t('path.title')}</h1>
+        <p class="subtitle">${t('path.subtitle')}</p>
+      </div>
+      <div class="card text-center"><p class="text-soft">${t('path.ladder.empty')}</p></div>
+    `;
+    if (!document.getElementById('path-styles')) {
+      const style = document.createElement('style');
+      style.id = 'path-styles';
+      style.textContent = PATH_STYLES;
+      document.head.appendChild(style);
+    }
+    return;
+  }
+
   el.innerHTML = `
     <div class="view-header">
       <h1>${t('path.title')}</h1>
@@ -100,6 +118,7 @@ function renderRung(r, lang) {
 }
 
 function findCurrentFocus(ladder) {
+  if (!ladder || ladder.length === 0) return null;
   // Lowest rung at SUDS 7 or below that the user is approaching; else lowest overall
   const approachable = ladder.filter(r => r.currentSuds <= 7);
   return (approachable.length ? approachable : ladder)[0];

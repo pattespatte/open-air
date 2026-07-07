@@ -144,10 +144,8 @@ function renderExposure() {
       <div class="field">
         <label class="field-label">${t('log.exposure.cameTrue')}</label>
         <div class="radio-row">
-          <label class="radio-pill">
-            <input type="radio" name="cametrue" value="false" checked>
-            <span>${t('log.exposure.cameTrue.no')}</span>
-          </label>
+          <label class="radio-pill"><input type="radio" name="cametrue" value="true"><span>${t('log.exposure.cameTrue.yes')}</span></label>
+          <label class="radio-pill"><input type="radio" name="cametrue" value="false" checked><span>${t('log.exposure.cameTrue.no')}</span></label>
         </div>
       </div>
       <div class="field">
@@ -282,7 +280,7 @@ function bindExposure(ctx) {
       catastrophicPrediction: val('ex-pred'),
       peakSuds: parseInt(document.getElementById('ex-peak').value, 10),
       endSuds,
-      predictionCameTrue: document.querySelector('input[name="cametrue"]:checked')?.value === 'false' ? false : true,
+      predictionCameTrue: document.querySelector('input[name="cametrue"]:checked')?.value === 'true',
       safetyBehaviors: val('ex-safety'),
       habituation: document.querySelector('input[name="habitu"]:checked')?.value === 'true',
       reflection: val('ex-refl'),
