@@ -4,7 +4,7 @@
    Critical: emergency tools must load with no signal.
    =========================================================================== */
 
-const CACHE_NAME = 'openair-v4';
+const CACHE_NAME = 'openair-v5';
 
 const PRECACHE_URLS = [
   './',
@@ -16,10 +16,13 @@ const PRECACHE_URLS = [
   './js/store.js',
   './js/i18n.js',
   './js/countries.js',
+  './js/overlay.js',
   './js/views/now.js',
   './js/views/practice.js',
   './js/views/log.js',
   './js/views/path.js',
+  './assets/icons/icon-192.png',
+  './assets/icons/icon-512.png',
 ];
 
 self.addEventListener('install', (event) => {
@@ -38,9 +41,13 @@ self.addEventListener('activate', (event) => {
 });
 
 /* Strategy: cache-first for app shell (instant, offline),
-   network fallback for anything else. */
+   network fallback for anything else.
+   For navigations, fall back to the cached index.html if offline so the
+   app shell always loads even if the specific URL isn't precached. */
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+
+  const isNavigation = event.request.mode === 'navigate';
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
@@ -52,7 +59,11 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         }
         return response;
-      }).catch(() => cached);
+      }).catch(() => {
+        // Offline and not in cache: for navigations, serve the app shell
+        if (isNavigation) return caches.match('./index.html');
+        return new Response('', { status: 504, statusText: 'Offline' });
+      });
     })
   );
 });

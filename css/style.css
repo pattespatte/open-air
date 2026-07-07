@@ -124,7 +124,7 @@ a:hover { text-decoration: underline; }
 .crisis-bar .crisis-num {
   font-family: var(--font-serif);
   font-size: var(--text-sm);
-  color: var(--color-primary-deep);
+  color: #4E6B4D;  /* darker than primary-deep for AA 5.09:1 on surface */
 }
 
 /* --- Bottom navigation ---
@@ -180,9 +180,10 @@ a:hover { text-decoration: underline; }
   letter-spacing: 0.01em;
 }
 
-/* NOW button gets a gentle emphasis — it's the emergency path */
+/* NOW button gets a gentle emphasis — it's the emergency path.
+   Uses primary-deep (#5E7A5D, AA 4.75:1) since the label is small text. */
 .bottom-nav .nav-now.active {
-  color: var(--color-primary);
+  color: var(--color-primary-deep);
 }
 
 /* --- Cards --- soft containers for grouped content */

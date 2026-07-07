@@ -5,6 +5,7 @@
 
 import { t } from '../i18n.js';
 import { store } from '../store.js';
+import { openOverlay, dismissOverlay, mountOverlay } from '../overlay.js';
 
 // Rung display labels (bilingual)
 const RUNG_LABELS = {
@@ -165,7 +166,7 @@ function openSudsEditor(id, rung, ctx) {
       </p>
       <div class="field">
         <input type="range" class="suds-slider" id="rung-suds-slider" min="0" max="10" value="${rung.currentSuds}">
-        <div class="suds-display" id="rung-suds-display">${rung.currentSuds}</div>
+        <div class="suds-display" id="rung-suds-display" role="status" aria-live="polite">${rung.currentSuds}</div>
       </div>
       <button class="btn btn-primary btn-block" id="rung-suds-save">${t('common.save')}</button>
 
@@ -173,7 +174,7 @@ function openSudsEditor(id, rung, ctx) {
       <ul class="suds-history">${historyRows}</ul>
     </div>
   `;
-  document.body.appendChild(overlay);
+  mountOverlay(overlay, null, () => ctx.refresh());
 
   const slider = overlay.querySelector('#rung-suds-slider');
   const display = overlay.querySelector('#rung-suds-display');
@@ -181,14 +182,9 @@ function openSudsEditor(id, rung, ctx) {
 
   overlay.querySelector('#rung-suds-save').addEventListener('click', () => {
     store.updateRungSuds(id, parseInt(slider.value, 10));
-    overlay.remove();
+    dismissOverlay(overlay);
     ctx.refresh();
   });
-
-  overlay.querySelectorAll('[data-close]').forEach(b =>
-    b.addEventListener('click', () => overlay.remove())
-  );
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
 }
 
 function openMilestoneEditor(ctx) {
@@ -211,7 +207,7 @@ function openMilestoneEditor(ctx) {
       <button class="btn btn-primary btn-block" id="ms-save">${t('common.save')}</button>
     </div>
   `;
-  document.body.appendChild(overlay);
+  mountOverlay(overlay, null, () => ctx.refresh());
 
   overlay.querySelector('#ms-save').addEventListener('click', () => {
     const title = overlay.querySelector('#ms-title').value.trim();
@@ -220,14 +216,9 @@ function openMilestoneEditor(ctx) {
       title,
       note: overlay.querySelector('#ms-note').value.trim(),
     });
-    overlay.remove();
+    dismissOverlay(overlay);
     ctx.refresh();
   });
-
-  overlay.querySelectorAll('[data-close]').forEach(b =>
-    b.addEventListener('click', () => overlay.remove())
-  );
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
 }
 
 function escapeHtml(s) {

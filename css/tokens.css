@@ -26,7 +26,7 @@
 
   --color-text: #2E2A26;           /* warm charcoal */
   --color-text-soft: #6B6359;
-  --color-text-faint: #9C9387;
+  --color-text-faint: #76705E;     /* AA: 4.6:1 on bg, 4.9:1 on white */
 
   --color-danger: #C97B6E;          /* muted terracotta — never harsh red */
   --color-danger-soft: #F0D4CC;

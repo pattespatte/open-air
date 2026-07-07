@@ -17,8 +17,8 @@ export function renderNow(el, ctx) {
       <button class="breathing-cta" id="start-breathing">
         <div class="breath-circle" id="breath-circle">
           <div class="breath-circle-inner">
-            <span class="breath-label" id="breath-label">${t('now.breathe')}</span>
-            <span class="breath-count" id="breath-count"></span>
+            <span class="breath-label" id="breath-label" aria-live="polite">${t('now.breathe')}</span>
+            <span class="breath-count" id="breath-count" role="status" aria-live="off"></span>
           </div>
         </div>
       </button>
@@ -33,6 +33,7 @@ export function renderNow(el, ctx) {
     <div class="now-panel" id="now-panel">
       <!-- Grounding or reassurance content injected here -->
     </div>
+    <!-- aria-live region reassigned to #now-panel when grounding is active -->
 
     <p class="disclaimer">${t('app.tagline')}. ${t('now.disclaimer')}</p>
   `;
@@ -179,14 +180,15 @@ function bindBreathing(el) {
     for (let n = phase.dur; n > 0; n--) {
       count.textContent = n;
       await delay(1000);
-      if (!breathing) return;
+      // Stop if user toggled off OR navigated away (element detached)
+      if (!breathing || !el.isConnected) return;
     }
   }
 
   async function loop() {
-    while (breathing) {
+    while (breathing && el.isConnected) {
       for (const phase of PHASES) {
-        if (!breathing) return;
+        if (!breathing || !el.isConnected) return;
         await runPhase(phase);
       }
     }

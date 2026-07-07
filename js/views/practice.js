@@ -5,6 +5,7 @@
 
 import { t } from '../i18n.js';
 import { store } from '../store.js';
+import { openOverlay, dismissOverlay, mountOverlay } from '../overlay.js';
 
 export function renderPractice(el, ctx) {
   const sessions = store.getEntriesByType('practice');
@@ -114,8 +115,8 @@ function renderBreathingExercise(el, ctx, exercise, pattern) {
       <div class="exercise-stage" id="exercise-stage">
         <div class="breath-circle breath-circle-lg" id="ex-breath-circle">
           <div class="breath-circle-inner">
-            <span class="breath-label" id="ex-breath-label"></span>
-            <span class="breath-count" id="ex-breath-count"></span>
+            <span class="breath-label" id="ex-breath-label" aria-live="polite"></span>
+            <span class="breath-count" id="ex-breath-count" role="status" aria-live="off"></span>
           </div>
         </div>
         <p class="breath-hint" id="ex-hint"></p>
@@ -124,14 +125,14 @@ function renderBreathingExercise(el, ctx, exercise, pattern) {
       <div class="exercise-suds-pre" id="ex-pre" hidden>
         <label class="field-label">${t('practice.preSuds')}</label>
         <input type="range" class="suds-slider" id="ex-pre-suds" min="0" max="10" value="5">
-        <div class="suds-display" id="ex-pre-display">5</div>
+        <div class="suds-display" id="ex-pre-display" role="status" aria-live="polite">5</div>
         <button class="btn btn-primary btn-block mt-5" id="ex-pre-confirm">${t('practice.begin')}</button>
       </div>
 
       <div class="exercise-suds-post" id="ex-post" hidden>
         <label class="field-label">${t('practice.postSuds')}</label>
         <input type="range" class="suds-slider" id="ex-post-suds" min="0" max="10" value="5">
-        <div class="suds-display" id="ex-post-display">5</div>
+        <div class="suds-display" id="ex-post-display" role="status" aria-live="polite">5</div>
         <button class="btn btn-primary btn-block mt-5" id="ex-post-confirm">${t('practice.save')}</button>
       </div>
 
@@ -141,7 +142,9 @@ function renderBreathingExercise(el, ctx, exercise, pattern) {
       </div>
     </div>
   `;
-  document.body.appendChild(overlay);
+
+  let sessionSaved = false;
+  mountOverlay(overlay, null, () => { if (sessionSaved) ctx.refresh(); });
 
   const stage = overlay.querySelector('#exercise-stage');
   const pre = overlay.querySelector('#ex-pre');
@@ -178,13 +181,14 @@ function renderBreathingExercise(el, ctx, exercise, pattern) {
     for (let n = phase.d; n > 0; n--) {
       count.textContent = n;
       await delay(1000);
-      if (!breathing) return;
+      // Stop if user finished OR the overlay was closed/removed
+      if (!breathing || !overlay.isConnected) return;
     }
   }
   async function loop() {
-    while (breathing) {
+    while (breathing && overlay.isConnected) {
       for (const ph of pattern) {
-        if (!breathing) return;
+        if (!breathing || !overlay.isConnected) return;
         await runPhase(ph);
       }
     }
@@ -217,20 +221,12 @@ function renderBreathingExercise(el, ctx, exercise, pattern) {
         sudsBefore: preSuds,
         sudsAfter: postSuds,
       });
+      sessionSaved = true;
       post.hidden = true;
       saved.hidden = false;
-      // On close, re-render the practice view to update count
-      overlay.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => {
-        overlay.remove();
-        ctx.refresh();
-      }));
+      // mountOverlay's onDismiss will call ctx.refresh() since sessionSaved is true
     });
   }
-
-  overlay.querySelectorAll('[data-close]').forEach(b =>
-    b.addEventListener('click', () => overlay.remove())
-  );
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
 }
 
 function renderGroundingExercise(el, ctx) {
@@ -251,7 +247,9 @@ function renderGroundingExercise(el, ctx) {
       </div>
       <div id="g-stage"></div>
     </div>`;
-  document.body.appendChild(overlay);
+
+  let sessionSaved = false;
+  mountOverlay(overlay, null, () => { if (sessionSaved) ctx.refresh(); });
 
   const stage = overlay.querySelector('#g-stage');
   let i = 0;
@@ -264,7 +262,8 @@ function renderGroundingExercise(el, ctx) {
         </div>`;
       overlay.querySelector('#g-save').addEventListener('click', () => {
         store.addEntry({ type: 'practice', exercise: t('practice.grounding') });
-        overlay.remove();
+        sessionSaved = true;
+        dismissOverlay(overlay);
         ctx.refresh();
       });
       return;
@@ -279,11 +278,6 @@ function renderGroundingExercise(el, ctx) {
     overlay.querySelector('#g-next').addEventListener('click', () => { i++; showStep(); });
   }
   showStep();
-
-  overlay.querySelectorAll('[data-close]').forEach(b =>
-    b.addEventListener('click', () => overlay.remove())
-  );
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
 }
 
 function renderReading(el, ctx, title, body, exercise) {
@@ -299,16 +293,12 @@ function renderReading(el, ctx, title, body, exercise) {
       </div>
       <button class="btn btn-primary btn-block mt-6" id="reading-save">${t('practice.save')}</button>
     </div>`;
-  document.body.appendChild(overlay);
+  mountOverlay(overlay, null, () => ctx.refresh());
   overlay.querySelector('#reading-save').addEventListener('click', () => {
     store.addEntry({ type: 'practice', exercise: title });
-    overlay.remove();
+    dismissOverlay(overlay);
     ctx.refresh();
   });
-  overlay.querySelectorAll('[data-close]').forEach(b =>
-    b.addEventListener('click', () => overlay.remove())
-  );
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
 }
 
 /* --- Helpers --- */

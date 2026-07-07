@@ -57,7 +57,7 @@ function renderQuick() {
       <div class="field">
         <label class="field-label" for="quick-suds">${t('log.quick.suds')}</label>
         <input type="range" class="suds-slider" id="quick-suds" min="0" max="10" value="5">
-        <div class="suds-display" id="quick-suds-display">5</div>
+        <div class="suds-display" id="quick-suds-display" role="status" aria-live="polite">5</div>
       </div>
       <div class="field">
         <label class="field-label" for="quick-note">${t('log.quick.note')}</label>
@@ -77,7 +77,7 @@ function renderThought() {
       <div class="field">
         <label class="field-label">${t('log.thought.emotions')}</label>
         <input type="range" class="suds-slider" id="th-suds" min="0" max="10" value="5">
-        <div class="suds-display" id="th-suds-display">5</div>
+        <div class="suds-display" id="th-suds-display" role="status" aria-live="polite">5</div>
       </div>
       <div class="field">
         <label class="field-label" for="th-situation">${t('log.thought.situation')}</label>
@@ -125,7 +125,7 @@ function renderExposure() {
       <div class="field">
         <label class="field-label">${t('log.exposure.anticipatory')}</label>
         <input type="range" class="suds-slider" id="ex-ant" min="0" max="10" value="7">
-        <div class="suds-display" id="ex-ant-display">7</div>
+        <div class="suds-display" id="ex-ant-display" role="status" aria-live="polite">7</div>
       </div>
       <div class="field">
         <label class="field-label" for="ex-pred">${t('log.exposure.prediction')}</label>
@@ -134,12 +134,12 @@ function renderExposure() {
       <div class="field">
         <label class="field-label">${t('log.exposure.peak')}</label>
         <input type="range" class="suds-slider" id="ex-peak" min="0" max="10" value="8">
-        <div class="suds-display" id="ex-peak-display">8</div>
+        <div class="suds-display" id="ex-peak-display" role="status" aria-live="polite">8</div>
       </div>
       <div class="field">
         <label class="field-label">${t('log.exposure.end')}</label>
         <input type="range" class="suds-slider" id="ex-end" min="0" max="10" value="5">
-        <div class="suds-display" id="ex-end-display">5</div>
+        <div class="suds-display" id="ex-end-display" role="status" aria-live="polite">5</div>
       </div>
       <div class="field">
         <label class="field-label">${t('log.exposure.cameTrue')}</label>
@@ -199,22 +199,22 @@ function renderEntry(e) {
   };
   let body = '';
   if (e.type === 'checkin') {
-    body = `<div class="entry-suds">SUDS ${e.suds}/10</div>${e.note ? `<div class="entry-note">${escapeHtml(e.note)}</div>` : ''}`;
+    body = `<div class="entry-suds">SUDS ${num(e.suds)}/10</div>${e.note ? `<div class="entry-note">${escapeHtml(e.note)}</div>` : ''}`;
   } else if (e.type === 'thought') {
-    body = `<div class="entry-suds">SUDS ${e.suds}/10</div>${e.automaticThoughts ? `<div class="entry-excerpt">${escapeHtml(truncate(e.automaticThoughts, 100))}</div>` : ''}`;
+    body = `<div class="entry-suds">SUDS ${num(e.suds)}/10</div>${e.automaticThoughts ? `<div class="entry-excerpt">${escapeHtml(truncate(e.automaticThoughts, 100))}</div>` : ''}`;
   } else if (e.type === 'exposure') {
-    body = `<div class="entry-suds">Peak ${e.peakSuds}/10 → End ${e.endSuds}/10</div>${e.catastrophicPrediction ? `<div class="entry-excerpt">"${escapeHtml(truncate(e.catastrophicPrediction, 80))}"</div>` : ''}`;
+    body = `<div class="entry-suds">Peak ${num(e.peakSuds)}/10 → End ${num(e.endSuds)}/10</div>${e.catastrophicPrediction ? `<div class="entry-excerpt">"${escapeHtml(truncate(e.catastrophicPrediction, 80))}"</div>` : ''}`;
   } else if (e.type === 'practice') {
-    body = `<div class="entry-excerpt">${escapeHtml(e.exercise || '')}${e.sudsBefore != null ? ` · ${e.sudsBefore}→${e.sudsAfter}` : ''}</div>`;
+    body = `<div class="entry-excerpt">${escapeHtml(e.exercise || '')}${e.sudsBefore != null ? ` · ${num(e.sudsBefore)}→${num(e.sudsAfter)}` : ''}</div>`;
   }
   return `
     <div class="history-entry card">
       <div class="entry-header">
-        <span class="entry-type">${typeLabels[e.type] || e.type}</span>
+        <span class="entry-type">${typeLabels[e.type] || escapeHtml(e.type)}</span>
         <span class="entry-date">${dateStr} · ${timeStr}</span>
       </div>
       ${body}
-      <button class="entry-delete" data-id="${e.id}" aria-label="${t('log.history.delete')}">${t('log.history.delete')}</button>
+      <button class="entry-delete" data-id="${escapeHtml(e.id)}" aria-label="${t('log.history.delete')}">${t('log.history.delete')}</button>
     </div>
   `;
 }
@@ -331,6 +331,9 @@ function bindHistory(ctx) {
 
 /* --- Helpers --- */
 function val(id) { return document.getElementById(id)?.value.trim() || ''; }
+
+// Coerce to a safe integer for display (defends against imported string values)
+function num(n) { return Number.isFinite(Number(n)) ? Number(n) : ''; }
 
 function rungLabel(id) {
   const labels = {

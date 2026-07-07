@@ -8,6 +8,7 @@
 import { store } from './store.js';
 import { setLanguage, getLanguage, t } from './i18n.js';
 import { COUNTRY_ORDER, getCountry, localeToCountry } from './countries.js';
+import { openOverlay, closeOverlay } from './overlay.js';
 import { renderNow } from './views/now.js';
 import { renderPractice } from './views/practice.js';
 import { renderLog } from './views/log.js';
@@ -84,7 +85,7 @@ function renderSettings() {
       <div class="overlay-panel card" role="dialog" aria-labelledby="settings-title" aria-modal="true">
         <div class="overlay-header">
           <h2 id="settings-title">${t('settings.title')}</h2>
-          <button class="btn btn-ghost" data-action="close-settings" aria-label="${t('common.close')}">✕</button>
+          <button class="btn btn-ghost" data-action="close-settings" data-close aria-label="${t('common.close')}">✕</button>
         </div>
 
         <div class="settings-row">
@@ -134,7 +135,7 @@ function renderHelp() {
       <div class="overlay-panel card help-panel" role="dialog" aria-labelledby="help-title" aria-modal="true">
         <div class="overlay-header">
           <h2 id="help-title">${t('help.title')}</h2>
-          <button class="btn btn-ghost" data-action="close-help" aria-label="${t('help.close')}">✕</button>
+          <button class="btn btn-ghost" data-action="close-help" data-close aria-label="${t('help.close')}">✕</button>
         </div>
         <div class="help-body">
           <div class="help-section help-callout">
@@ -244,26 +245,26 @@ function bindEvents() {
     btn.addEventListener('click', () => navigate(btn.dataset.view));
   });
 
-  // Settings open/close
-  document.querySelector('[data-action="open-settings"]')?.addEventListener('click', () => {
-    document.getElementById('settings-overlay').hidden = false;
+  // Settings open/close (with focus management)
+  document.querySelector('[data-action="open-settings"]')?.addEventListener('click', (e) => {
+    openOverlay(document.getElementById('settings-overlay'), e.currentTarget);
   });
   document.querySelector('[data-action="close-settings"]')?.addEventListener('click', () => {
-    document.getElementById('settings-overlay').hidden = true;
+    closeOverlay(document.getElementById('settings-overlay'));
   });
   document.getElementById('settings-overlay')?.addEventListener('click', (e) => {
-    if (e.target.id === 'settings-overlay') e.target.hidden = true;
+    if (e.target.id === 'settings-overlay') closeOverlay(e.target);
   });
 
-  // Help open/close
-  document.querySelector('[data-action="open-help"]')?.addEventListener('click', () => {
-    document.getElementById('help-overlay').hidden = false;
+  // Help open/close (with focus management)
+  document.querySelector('[data-action="open-help"]')?.addEventListener('click', (e) => {
+    openOverlay(document.getElementById('help-overlay'), e.currentTarget);
   });
   document.querySelector('[data-action="close-help"]')?.addEventListener('click', () => {
-    document.getElementById('help-overlay').hidden = true;
+    closeOverlay(document.getElementById('help-overlay'));
   });
   document.getElementById('help-overlay')?.addEventListener('click', (e) => {
-    if (e.target.id === 'help-overlay') e.target.hidden = true;
+    if (e.target.id === 'help-overlay') closeOverlay(e.target);
   });
 
   // Language chips
