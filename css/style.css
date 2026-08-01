@@ -442,6 +442,22 @@ select:focus-visible {
   .top-action { padding: var(--space-2); min-width: 40px; justify-content: center; }
 }
 
+/* The crisis bar sits inside the centered, max-width main, while the help/
+   settings buttons are absolutely pinned to the viewport's top-right corner.
+   They only clear each other once the viewport is wide enough (~980px) that
+   the centered main leaves dead space beside it. Below that, flow the buttons
+   in right under the crisis bar so they can never overlap. */
+@media (max-width: 1024px) {
+  .top-actions {
+    position: static;
+    justify-content: flex-end;
+    margin-bottom: var(--space-4);
+  }
+  /* Bring crisis bar and actions closer together — they're one block of
+     top chrome — to save vertical room on short viewports (e.g. iPhone SE). */
+  .crisis-bar { margin-bottom: var(--space-3); }
+}
+
 /* --- Overlay (settings modal) --- */
 .overlay {
   position: fixed;
@@ -468,8 +484,14 @@ select:focus-visible {
 .overlay-panel {
   width: 100%;
   max-width: var(--content-max);
+  /* Cap height to the overlay's available space (viewport minus its padding)
+     so tall panels scroll internally instead of overflowing off the top.
+     dvh keeps it correct on mobile browsers with dynamic toolbars. */
+  max-height: 100%;
+  overflow-y: auto;
   margin: 0;
   animation: panelSlideUp var(--transition-slow) var(--ease-soft) both;
+  -webkit-overflow-scrolling: touch; /* smooth momentum scroll on iOS */
 }
 
 @keyframes panelSlideUp {
@@ -569,12 +591,7 @@ select:focus-visible {
 }
 
 /* --- Help overlay --- */
-.help-panel {
-  max-height: calc(100vh - var(--space-8));
-  max-height: calc(100dvh - var(--space-8));
-  overflow-y: auto;
-}
-
+/* The help panel scrolls via .overlay-panel; this targets its body only. */
 .help-body h3 {
   font-family: var(--font-sans);
   font-size: var(--text-base);

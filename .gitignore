@@ -9,6 +9,9 @@ Thumbs.db
 *.swo
 *~
 
+# Tools
+.zcode/
+
 # Node (if a build step or tooling is ever added)
 node_modules/
 npm-debug.log*
