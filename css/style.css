@@ -166,8 +166,18 @@ a:hover { text-decoration: underline; }
   background: var(--color-surface);
 }
 
+/* Active state — must read at a glance. The whole button gets a faint
+   surface tint (half-strength, so it stays lighter than the :active press
+   feedback) plus a sage label in a heavier weight. Emoji icons ignore
+   `color`, so the tint + label weight carry selection. Layout is identical
+   in both states so nothing shifts when toggling. */
 .bottom-nav button.active {
   color: var(--color-primary-deep);
+  background: color-mix(in srgb, var(--color-surface) 50%, transparent);
+}
+
+.bottom-nav button.active .nav-label {
+  font-weight: var(--weight-semibold);
 }
 
 .bottom-nav .nav-icon {
@@ -178,12 +188,6 @@ a:hover { text-decoration: underline; }
 .bottom-nav .nav-label {
   font-weight: var(--weight-medium);
   letter-spacing: 0.01em;
-}
-
-/* NOW button gets a gentle emphasis — it's the emergency path.
-   Uses primary-deep (#5E7A5D, AA 4.75:1) since the label is small text. */
-.bottom-nav .nav-now.active {
-  color: var(--color-primary-deep);
 }
 
 /* --- Cards --- soft containers for grouped content */
