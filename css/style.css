@@ -381,6 +381,101 @@ textarea {
   text-align: center;
 }
 
+/* --- Breathing & grounding (shared primitives) ---
+   These classes belong to no single view: NOW owns the breathing CTA,
+   Practice reuses the circle and grounding steps inside its overlays.
+   Defined here so they render regardless of which view is visited first.
+   View-local classes (.breathing-cta, .now-*) stay in their own view. */
+.breath-circle {
+  width: 220px;
+  height: 220px;
+  border-radius: var(--radius-full);
+  background: radial-gradient(circle at 40% 35%, var(--color-primary-soft), var(--color-secondary-soft));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+  transition: transform 4s cubic-bezier(0.45, 0, 0.55, 1);
+  box-shadow: 0 0 60px rgba(139, 168, 137, 0.25);
+}
+
+.breath-circle-inner {
+  text-align: center;
+  color: var(--color-text);
+}
+
+.breath-label {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+}
+
+.breath-count {
+  display: block;
+  font-size: var(--text-2xl);
+  font-family: var(--font-serif);
+  color: var(--color-primary-deep);
+  margin-top: var(--space-1);
+  min-height: 1em;
+}
+
+.breath-hint {
+  color: var(--color-text-soft);
+  font-size: var(--text-sm);
+}
+
+/* Grounding — shared between NOW's grounding tab and Practice's overlay */
+.grounding-intro { text-align: center; margin-bottom: var(--space-6); }
+
+.grounding-step {
+  text-align: center;
+  animation: viewFadeIn var(--transition-base) var(--ease-soft) both;
+}
+
+.grounding-count {
+  font-family: var(--font-serif);
+  font-size: var(--text-4xl);
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: var(--space-4);
+}
+
+.grounding-prompt {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  max-width: 320px;
+  margin: 0 auto var(--space-6);
+}
+
+.grounding-controls { text-align: center; }
+
+.grounding-done {
+  text-align: center;
+  animation: viewFadeIn var(--transition-slow) var(--ease-soft) both;
+}
+
+.grounding-done-text {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  color: var(--color-primary-deep);
+  margin-bottom: var(--space-5);
+}
+
+/* Reassurance body — used by NOW and referenced by Practice's reading view */
+.reassurance-body p {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  margin-bottom: var(--space-5);
+}
+
+.reassurance-body p:last-child { margin-bottom: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .breath-circle { transition: background-color 280ms; }
+}
+
 /* --- Therapy disclaimer footer --- */
 .disclaimer {
   margin-top: var(--space-7);
